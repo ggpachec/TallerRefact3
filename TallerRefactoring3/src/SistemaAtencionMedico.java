@@ -6,6 +6,9 @@ public class SistemaAtencionMedico {
     private List<Medico> medicos;
     private List<ServicioMedico> serviciosMedicos;
 
+    final private double DESCUENTO_ADULTOS_MAYORES = 0.25;
+    final private int EDAD_DE_ADULTO_MAYOR = 65;
+
     public SistemaAtencionMedico() {
         this.pacientes = new ArrayList<>();
         this.medicos = new ArrayList<>();
@@ -24,6 +27,7 @@ public class SistemaAtencionMedico {
         serviciosMedicos.add(servicioMedico);
     }
 
+    // TODO: necesita refactor
     public void agendarConsulta(Paciente paciente, Consulta consulta){
         double costoConsulta = consulta.getServicioMedico().getCosto();
         int edadPaciente = paciente.getEdad();
@@ -34,8 +38,8 @@ public class SistemaAtencionMedico {
 
     public double calcularValorFinalConsulta(double costoConsulta, int edadPaciente){
         double valorARestar = 0;
-        if(edadPaciente>=65){
-            valorARestar = costoConsulta*0.25; //0.25 es el descuento para adultos mayores
+        if(edadPaciente >= EDAD_DE_ADULTO_MAYOR){
+            valorARestar = costoConsulta * DESCUENTO_ADULTOS_MAYORES;
         }
         return costoConsulta-valorARestar;
     }
