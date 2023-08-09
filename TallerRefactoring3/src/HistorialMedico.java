@@ -11,18 +11,38 @@ public class HistorialMedico {
     }
 
     public List<Consulta> getConsultas() {
-        return consultas;
+    	return new ArrayList<Consulta>(this.consultas); // Devuelve una copia
     }
 
-    public void setConsultas(List<Consulta> consultas) {
-        this.consultas = consultas;
+    public boolean agregarConsulta(Consulta consulta) {
+    	this.consultas.add(consulta);
+        return true;
+    }
+    
+    public boolean eliminarConsulta(Consulta consulta) {
+    	int indice = this.consultas.indexOf(consulta);
+        if (indice != -1) {
+        	this.consultas.remove(indice);
+        	return true;
+        }
+        return false;
     }
 
     public List<RecetaMedica> getRecetasMedicas() {
-        return recetasMedicas;
+    	return new ArrayList<RecetaMedica>(this.recetasMedicas); // Devuelve una copia
     }
 
-    public void setRecetasMedicas(List<RecetaMedica> recetasMedicas) {
-        this.recetasMedicas = recetasMedicas;
+    public boolean agregarRecetaMedica(RecetaMedica recetaMedica) {
+    	this.recetasMedicas.add(recetaMedica);
+        return true;
+    }
+    
+    public boolean eliminarRecetaMedica(RecetaMedica recetaMedica) {
+    	int indice = this.recetasMedicas.indexOf(recetaMedica);
+        if (indice != -1) {
+        	this.recetasMedicas.remove(indice);
+        	return true;
+        }
+        return false;
     }
 }

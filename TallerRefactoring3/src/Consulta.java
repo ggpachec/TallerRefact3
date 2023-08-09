@@ -1,10 +1,9 @@
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Consulta {
-    public int dia;
-    public int mes;
-    public int año;
-    private String hora;
+    private LocalDateTime fechaHora;
     private Paciente paciente;
     private Medico medico;
     private ServicioMedico servicioMedico;
@@ -13,23 +12,20 @@ public class Consulta {
     private String tratamiento;
     private List<String> examenesMedicos;
 
-    public Consulta(int dia, int mes, int año, String hora, Paciente paciente, Medico medico, ServicioMedico servicioMedico, String diagnostico, String tratamiento, List<String> examenesMedicos) {
-        this.dia = dia;
-        this.mes = mes;
-        this.año = año;
-        this.hora = hora;
+    public Consulta(LocalDateTime fechaHora, Paciente paciente, Medico medico, ServicioMedico servicioMedico, String diagnostico, String tratamiento, List<String> examenesMedicos) {
+        this.fechaHora = fechaHora;
         this.servicioMedico = servicioMedico;
         this.paciente = paciente;
         this.medico = medico;
         this.realizada = false;
     }
-
-    public String getHora() {
-        return hora;
+    
+    public LocalDateTime getFechaHora() {
+        return fechaHora;
     }
 
-    public void setHora(String hora) {
-        this.hora = hora;
+    public void setFechaHora(LocalDateTime fechaHora) {
+        this.fechaHora = fechaHora;
     }
 
     public Paciente getPaciente() {
@@ -73,13 +69,26 @@ public class Consulta {
     }
 
     public List<String> getExamenesMedicos() {
-        return examenesMedicos;
+        return new ArrayList<String>(examenesMedicos); // Devuelve una copia para evitar modificaciones externas
     }
 
-    public void setExamenesMedicos(List<String> examenesMedicos) {
-        this.examenesMedicos = examenesMedicos;
+    public boolean agregarExamenMedico(String examen) {
+        if (examen != null) {
+        	this.examenesMedicos.add(examen);
+        	return true;
+        }
+        return false;
     }
-
+    
+    public boolean eliminarExamenMedico(String examen) {
+    	int indice = this.examenesMedicos.indexOf(examen);
+        if (indice != -1) {
+        	this.examenesMedicos.remove(indice);
+        	return true;
+        }
+        return false;
+    }
+    
     public ServicioMedico getServicioMedico() {
         return servicioMedico;
     }
