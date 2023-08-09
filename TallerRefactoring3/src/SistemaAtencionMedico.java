@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class SistemaAtencionMedico {
     private List<Paciente> pacientes;
@@ -27,45 +28,39 @@ public class SistemaAtencionMedico {
         serviciosMedicos.add(servicioMedico);
     }
 
-    // TODO: necesita refactor
-    public void agendarConsulta(Paciente paciente, Consulta consulta){
-        double costoConsulta = consulta.getServicioMedico().getCosto();
-        int edadPaciente = paciente.getEdad();
-        costoConsulta = calcularValorFinalConsulta(costoConsulta,edadPaciente);
-        System.out.println("Se han cobrado "+ costoConsulta+ " dolares de su tarjeta de credito");
-        paciente.historialMedico.getConsultas().add(consulta); //Hacer esto es incorrecto
-    }
-
-    public double calcularValorFinalConsulta(double costoConsulta, int edadPaciente){
-        double valorARestar = 0;
-        if(edadPaciente >= EDAD_DE_ADULTO_MAYOR){
-            valorARestar = costoConsulta * DESCUENTO_ADULTOS_MAYORES;
-        }
-        return costoConsulta-valorARestar;
-    }
-
-    // se puede parametrizar (obtener...)
-    public Paciente obtenerPaciente(String nombrePaciente) {
-        for(Paciente paciente : pacientes){
-            if (paciente.getNombre().equals(nombrePaciente))
-                return paciente;
+    public <T> T obtenerElemento(List<T> elementos, String nombreElemento, Function<T, String> obtenerNombre) {
+        for (T elemento : elementos) {
+            if (obtenerNombre.apply(elemento).equals(nombreElemento)) {
+                return elemento;
+            }
         }
         return null;
+    }
+
+    public Paciente obtenerPaciente(String nombrePaciente) {
+        return obtenerElemento(pacientes, nombrePaciente, Paciente::getNombre);
     }
 
     public ServicioMedico obtenerServicioMedico(String nombreServicio) {
-        for(ServicioMedico servicioMedico : serviciosMedicos){
-            if (servicioMedico.getNombre().equals(nombreServicio))
-                return servicioMedico;
-        }
-        return null;
+        return obtenerElemento(serviciosMedicos, nombreServicio, ServicioMedico::getNombre);
     }
 
     public Medico obtenerMedico(String nombreMedico) {
-        for(Medico medico : medicos){
-            if (medico.getNombre().equals(nombreMedico))
-                return medico;
+        return obtenerElemento(medicos, nombreMedico, Medico::getNombre);
+    }
+
+    public void agendarConsulta(Paciente paciente, Consulta consulta){
+        double costoConsulta = consulta.getServicioMedico().getCosto();
+        costoConsulta = calcularValorFinalConsulta(costoConsulta,paciente);
+        System.out.println("Se han cobrado "+ costoConsulta+ " dolares de su tarjeta de credito");
+        paciente.agregarConsultaAlHistorial(consulta);
+    }
+
+    public double calcularValorFinalConsulta(double costoConsulta, int paciente){
+        double valorARestar = 0;
+        if(paciente.getEdad() >= EDAD_DE_ADULTO_MAYOR){
+            valorARestar = costoConsulta * DESCUENTO_ADULTOS_MAYORES;
         }
-        return null;
+        return costoConsulta-valorARestar;
     }
 }

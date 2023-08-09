@@ -1,4 +1,5 @@
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecetaMedica {
@@ -43,14 +44,18 @@ public class RecetaMedica {
         medicamentos.add(medicamento);
     }
 
-    public String getMedicamento(int i) {
+    public String getMedicamento(Integer i) {
         if (i >= 0 && i < medicamentos.size()) {
             return medicamentos.get(i);
         }
         return null;
     }
 
-    public Integer cantidadDeMedicamentos() {
+    public int cantidadDeMedicamentos() {
         return medicamentos.size();
+    }
+
+    public List<String> getMedicamentos() {
+        return new ArrayList<>(medicamentos);
     }
 }

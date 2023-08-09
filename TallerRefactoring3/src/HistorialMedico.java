@@ -45,4 +45,8 @@ public class HistorialMedico {
         }
         return false;
     }
+    
+    public void agregarConsulta(Consulta consulta) {
+        consultas.add(consulta);
+    }
 }
