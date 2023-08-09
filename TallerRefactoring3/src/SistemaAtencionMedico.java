@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 public class SistemaAtencionMedico {
     private List<Paciente> pacientes;
@@ -27,7 +28,27 @@ public class SistemaAtencionMedico {
         serviciosMedicos.add(servicioMedico);
     }
 
-    // TODO: necesita refactor
+    public <T> T obtenerElemento(List<T> elementos, String nombreElemento, Function<T, String> obtenerNombre) {
+        for (T elemento : elementos) {
+            if (obtenerNombre.apply(elemento).equals(nombreElemento)) {
+                return elemento;
+            }
+        }
+        return null;
+    }
+
+    public Paciente obtenerPaciente(String nombrePaciente) {
+        return obtenerElemento(pacientes, nombrePaciente, Paciente::getNombre);
+    }
+
+    public ServicioMedico obtenerServicioMedico(String nombreServicio) {
+        return obtenerElemento(serviciosMedicos, nombreServicio, ServicioMedico::getNombre);
+    }
+
+    public Medico obtenerMedico(String nombreMedico) {
+        return obtenerElemento(medicos, nombreMedico, Medico::getNombre);
+    }
+
     public void agendarConsulta(Paciente paciente, Consulta consulta){
         double costoConsulta = consulta.getServicioMedico().getCosto();
         int edadPaciente = paciente.getEdad();
@@ -42,30 +63,5 @@ public class SistemaAtencionMedico {
             valorARestar = costoConsulta * DESCUENTO_ADULTOS_MAYORES;
         }
         return costoConsulta-valorARestar;
-    }
-
-    // se puede parametrizar (obtener...)
-    public Paciente obtenerPaciente(String nombrePaciente) {
-        for(Paciente paciente : pacientes){
-            if (paciente.getNombre().equals(nombrePaciente))
-                return paciente;
-        }
-        return null;
-    }
-
-    public ServicioMedico obtenerServicioMedico(String nombreServicio) {
-        for(ServicioMedico servicioMedico : serviciosMedicos){
-            if (servicioMedico.getNombre().equals(nombreServicio))
-                return servicioMedico;
-        }
-        return null;
-    }
-
-    public Medico obtenerMedico(String nombreMedico) {
-        for(Medico medico : medicos){
-            if (medico.getNombre().equals(nombreMedico))
-                return medico;
-        }
-        return null;
     }
 }
