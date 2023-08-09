@@ -7,15 +7,12 @@ public class RecetaMedica {
     private Medico medico;
     private List<String> medicamentos;
 
+
     public RecetaMedica(LocalDateTime fechaHora, Paciente paciente, Medico medico, List<String> medicamentos) {
         this.fechaHora = fechaHora;
         this.paciente = paciente;
         this.medico = medico;
         this.medicamentos = medicamentos;
-    }
-
-    public void agregarMedicamento(String medicamento) {
-        medicamentos.add(medicamento);
     }
 
     public LocalDateTime getFechaHora() {
@@ -42,11 +39,18 @@ public class RecetaMedica {
         this.medico = medico;
     }
 
-    public List<String> getMedicamentos() {
-        return medicamentos;
+    public void agregarMedicamento(String medicamento) {
+        medicamentos.add(medicamento);
     }
 
-    public void setMedicamentos(List<String> medicamentos) {
-        this.medicamentos = medicamentos;
+    public String getMedicamento(int i) {
+        if (i >= 0 && i < medicamentos.size()) {
+            return medicamentos.get(i);
+        }
+        return null;
+    }
+
+    public Integer cantidadDeMedicamentos() {
+        return medicamentos.size();
     }
 }
